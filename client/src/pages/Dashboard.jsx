@@ -33,7 +33,7 @@ const Dashboard = () => {
           <div className="text-slate-600">
             <p className="text-sm">Active Plan</p>
             <h2 className="text-xl font-semibold">
-              <Protect plan="Premium" fallback="Free">
+              <Protect plan={'premium'} fallback="Free">
                 Premium
               </Protect>
             </h2>
