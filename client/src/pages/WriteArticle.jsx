@@ -1,5 +1,5 @@
 import { Edit, Sparkles } from 'lucide-react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 const WriteArticle = () => {
   const articleLength = [
@@ -11,10 +11,14 @@ const WriteArticle = () => {
   const [selectedLength, setSelectedLength] = useState(articleLength[0])
   const [input, setInput] = useState('')
 
+  const onSubitHandler = async (e)=>{
+    e.preventDefault()
+  }
+
   return (
     <div className='h-full overflow-y-scroll p-6 flex items-start flex-wrap gap-4 text-slate-700'>
       {/* left col */}
-      <form className='w-full max-w-lg p-4 bg-white rounded-lg border border-gray-200'>
+      <form onSubmit={onSubitHandler} className='w-full max-w-lg p-4 bg-white rounded-lg border border-gray-200'>
         <div className='flex items-center gap-3'>
           <Sparkles className='w-6 text-[#447AFF]' />
           <h1 className='text-xl font-semibold'>Article Configuration</h1>
