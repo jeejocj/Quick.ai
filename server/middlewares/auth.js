@@ -19,6 +19,7 @@ export const auth = async (req, res, next) => {
       });
       req.free_usage = 0;
     }
+    
     req.plan = hasPremiumPlan ? "premium" : "free";
     next();
   } catch (error) {
