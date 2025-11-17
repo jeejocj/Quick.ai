@@ -39,45 +39,65 @@ const Dashboard = () => {
   
 
   return (
-    <div className="h-full overflow-y-scroll p-6">
-      <div className="flex justify-start gap-4 flex-wrap">
-        {/* Total Creations Card */}
-        <div className="flex justify-between items-center w-72 p-4 px-6 bg-white rounded-xl border border-gray-200">
-          <div className="text-slate-600">
-            <p className="text-sm">Total Creations</p>
-            <h2 className="text-xl font-semibold">{creations.length}</h2>
+    <div className="h-full overflow-y-auto p-6 sm:p-10 text-white">
+      <div className="max-w-6xl mx-auto space-y-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="p-6 rounded-2xl bg-gray-900/70 backdrop-blur-xl border border-white/10 flex items-center justify-between shadow-[0_20px_80px_-40px_rgba(0,0,0,0.8)]">
+            <div>
+              <p className="text-sm uppercase tracking-[0.3em] text-gray-400">Total Creations</p>
+              <h2 className="text-3xl font-semibold mt-3">{creations.length}</h2>
+            </div>
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+              <Sparkles className="w-6 h-6" />
+            </div>
           </div>
-          <div className="w-16 h-16 rounded-lg bg-linear-to-br from-[#3588F2] to-[#9BB0D7] text-white flex justify-center items-center">
-            <Sparkles className="w-5 text-white" />
+          <div className="p-6 rounded-2xl bg-gray-900/70 backdrop-blur-xl border border-white/10 flex items-center justify-between shadow-[0_20px_80px_-40px_rgba(0,0,0,0.8)]">
+            <div>
+              <p className="text-sm uppercase tracking-[0.3em] text-gray-400">Active Plan</p>
+              <h2 className="text-3xl font-semibold mt-3">
+                <Protect plan={"premium"} fallback="Free">
+                  Premium
+                </Protect>
+              </h2>
+            </div>
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
+              <Gem className="w-6 h-6" />
+            </div>
           </div>
         </div>
-        {/* Active Plan Card */}
-        <div className="flex justify-between items-center w-72 p-4 px-6 bg-white rounded-xl border border-gray-200">
-          <div className="text-slate-600">
-            <p className="text-sm">Active Plan</p>
-            <h2 className="text-xl font-semibold">
-              <Protect plan={"premium"} fallback="Free">
-                Premium
-              </Protect>
-            </h2>
+
+        <div className="bg-gray-900/70 border border-white/10 rounded-2xl p-6 shadow-[0_20px_80px_-40px_rgba(0,0,0,0.8)]">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.4em] text-blue-300/70">Activity</p>
+              <h3 className="text-2xl font-semibold mt-3">Recent Creations</h3>
+            </div>
+            <span className="text-sm text-gray-400">Automatically updated</span>
           </div>
-          <div className="w-16 h-16 rounded-lg bg-linear-to-br from-[#FF61C5] to-[#9E53EE] text-white flex justify-center items-center">
-            <Gem className="w-5 text-white" />
-          </div>
+
+          {loading ? (
+            <div className="flex justify-center items-center min-h-[220px]">
+              <span className="w-12 h-12 rounded-full border-2 border-white/20 border-t-transparent animate-spin"></span>
+            </div>
+          ) : creations.length ? (
+            <div className="mt-6 space-y-4">
+              {creations.map((item) => (
+                <div
+                  key={item.id}
+                  className="rounded-xl border border-white/5 bg-black/40 hover:border-blue-500/30 transition-colors"
+                >
+                  <CreationItem item={item} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-6 min-h-[200px] flex flex-col items-center justify-center text-gray-400 gap-4">
+              <Sparkles className="w-10 h-10" />
+              <p>No creations yet. Start exploring tools to generate content.</p>
+            </div>
+          )}
         </div>
       </div>
-      {loading ? (
-        <div className="flex justify-center items-center h-3/4">
-          <div className="animate-spin rounded-full h-11 w-11 border-3 border-purple-500 border-t-transparent"></div>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          <p className="mt-6 mb-4">Recent Creations</p>
-          {creations.map((item) => (
-            <CreationItem key={item.id} item={item} />
-          ))}
-        </div>
-      )}
     </div>
   );
 };

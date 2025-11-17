@@ -217,7 +217,7 @@ export const removeImageObject = async (req, res) => {
     });
 
     await sql`INSERT INTO creations (user_id, prompt, content, type)
-    VALUES (${userId}, ${`removed ${object} from image`}, ${imageUrl}, 'image')`;
+    VALUES (${userId}, ${`Removed ${object} from image`}, ${imageUrl}, 'image')`;
 
     res.json({
       success: true,
@@ -262,7 +262,7 @@ export const resumeReview = async (req, res) => {
       Resume content:
       ${resumeText}
     `;
-   const prompt =  'review the uploaded resume'
+   const prompt =  'Review the uploaded resume'
 
     const response = await AI.chat.completions.create({
       model: "gemini-2.0-flash",

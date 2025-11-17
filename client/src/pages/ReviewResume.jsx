@@ -19,7 +19,6 @@ const ReviewResume = () => {
     try {
       setLoading(true);
 
-      // Check if file is selected
       if (!file) {
         toast.error("Please select a resume file");
         setLoading(false);
@@ -48,73 +47,80 @@ const ReviewResume = () => {
   };
 
   return (
-    <div className="h-full overflow-y-scroll p-6 flex items-start flex-wrap gap-4 text-slate-700">
-      {/* left col */}
-      <form
-        onSubmit={onSubmitHandler}
-        className="w-full max-w-lg p-4 bg-white rounded-lg border border-gray-200"
-      >
-        <div className="flex items-center gap-3">
-          <Sparkles className="w-6 text-[#447AFF]" />
-          <h1 className="text-xl font-semibold">Resume Review</h1>
-        </div>
-
-        <p className="mt-6 text-sm font-medium">Upload Resume</p>
-
-        {/* File upload section */}
-        <div className="mt-3 p-4 border-2 border-dashed border-gray-300 rounded-lg text-center">
-          <input
-            type="file"
-            id="file-upload"
-            className="hidden"
-            accept=".pdf"
-            onChange={(e) => setFile(e.target.files?.[0] || null)}
-          />
-          <label htmlFor="file-upload" className="cursor-pointer">
-            <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-            <p className="text-sm text-gray-600">
-              <span className="text-blue-600 underline">Choose File</span>
-              {file ? ` ${file.name}` : " No file chosen"}
-            </p>
-            <p className="text-xs text-gray-500 mt-1">
-              Supports PDF resume only.
-            </p>
-          </label>
-        </div>
-
-        <button
-          disabled={loading}
-          className="w-full flex justify-center items-center gap-2 bg-linear-to-r from-[#226BFF] to-[#65ADFF] text-white px-4 py-2 mt-6 text-sm rounded-lg cursor-pointer"
+    <div className="h-full overflow-y-auto p-6 sm:p-10 text-white">
+      <div className="max-w-6xl mx-auto flex flex-wrap gap-6">
+        <form
+          onSubmit={onSubmitHandler}
+          className="flex-1 min-w-[280px] bg-gray-900/70 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 shadow-[0_20px_80px_-40px_rgba(0,0,0,0.8)]"
         >
-          {loading ? (
-            <span className="w-4 h-4 my-1 rounded-full border-2 border-t-transparent animate-spin"></span>
-          ) : (
-            <FileText className="w-5" />
-          )}
-          Review Resume
-        </button>
-      </form>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-widest text-blue-300/80">Resume Review</p>
+              <h1 className="text-2xl font-semibold">Instant professional insights</h1>
+            </div>
+          </div>
 
-      {/* Right col*/}
-      <div className="w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-200 min-h-96 max-h-[600px]">
-        <div className="flex items-center gap-3">
-          <FileText className="w-5 h-5 text-[#447AFF]" />
-          <h1 className="text-xl font-semibold">Analysis Results</h1>
+          <p className="mt-8 text-sm font-medium text-gray-300">Upload Resume</p>
+
+          <div className="mt-4 p-6 border border-dashed border-white/20 rounded-2xl bg-black/30 text-center">
+            <input
+              type="file"
+              id="file-upload"
+              className="hidden"
+              accept=".pdf"
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
+            />
+            <label htmlFor="file-upload" className="cursor-pointer inline-flex flex-col items-center gap-3">
+              <Upload className="w-8 h-8 text-gray-300" />
+              <div className="text-sm text-gray-300">
+                <span className="text-blue-400 underline">Choose File</span>
+                {file ? ` ${file.name}` : " No file chosen"}
+              </div>
+              <p className="text-xs text-gray-500">Supports PDF resume only</p>
+            </label>
+          </div>
+
+          <button
+            disabled={loading}
+            className="mt-8 w-full flex justify-center items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 py-3 text-sm font-medium tracking-wide shadow-lg shadow-blue-500/20 transition-transform hover:scale-[1.01] disabled:opacity-70"
+          >
+            {loading ? (
+              <span className="w-4 h-4 my-1 rounded-full border-2 border-t-transparent border-white/60 animate-spin"></span>
+            ) : (
+              <FileText className="w-5" />
+            )}
+            Review Resume
+          </button>
+        </form>
+
+        <div className="flex-1 min-w-[280px] bg-gray-900/70 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 flex flex-col shadow-[0_20px_80px_-40px_rgba(0,0,0,0.8)] max-h-[600px]">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+              <FileText className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-widest text-purple-200/80">Results</p>
+              <h1 className="text-2xl font-semibold">Analysis summary</h1>
+            </div>
+          </div>
+          {!content ? (
+            <div className="flex-1 flex justify-center items-center">
+              <div className="text-sm flex flex-col items-center gap-5 text-gray-500 text-center">
+                <FileText className="w-9 h-9" />
+                <p>Upload a resume and click "Review Resume" to get started</p>
+              </div>
+            </div>
+          ) : (
+            <div className="mt-4 h-full overflow-y-auto text-sm text-gray-200 pr-2">
+              <div className="reset-tw">
+                <Markdown>{content}</Markdown>
+              </div>
+            </div>
+          )}
         </div>
-        {!content ? (
-          <div className="flex-1 flex justify-center items-center">
-            <div className="text-sm flex flex-col items-center gap-5 text-gray-400">
-              <FileText className="w-9 h-9" />
-              <p>Upload a resume and click "Review Resume" to get started</p>
-            </div>
-          </div>
-        ) : (
-          <div className="mt-3 h-full overflow-y-scroll text-sm text-slate-600 ">
-            <div  className="reset-tw">
-              <Markdown>{content}</Markdown>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

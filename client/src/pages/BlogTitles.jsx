@@ -54,79 +54,91 @@ export const BlogTitles = () => {
   };
 
   return (
-    <div className="h-full overflow-y-scroll p-6 flex items-start flex-wrap gap-4 text-slate-700">
-      {/* left col */}
-      <form
-        onSubmit={onSubmitHandler}
-        className="w-full max-w-lg p-4 bg-white rounded-lg border border-gray-200"
-      >
-        <div className="flex items-center gap-3">
-          <Sparkles className="w-6 text-[#00AD25]" />
-          <h1 className="text-xl font-semibold">AI Title Generator</h1>
-        </div>
-
-        <p className="mt-6 text-sm font-medium">Keyword</p>
-        <input
-          type="text"
-          className="w-full p-2 px-3 mt-2 outline-none text-sm rounded-md border border-gray-300"
-          value={input}
-          placeholder="The future of artificial intelligence is..."
-          onChange={(e) => setInput(e.target.value)}
-          required
-        />
-
-        <p className="mt-4 text-sm font-medium">Category</p>
-
-        <div className="mt-3 flex gap-3 flex-wrap">
-          {categories.map((category, index) => (
-            <span
-              onClick={() => setSelectedCategory(category)}
-              className={`text-xs px-4 py-1 border rounded-full cursor-pointer ${
-                selectedCategory === category
-                  ? "bg-blue-50 text-blue-700 border-blue-200"
-                  : "text-gray-500 border-gray-300"
-              }`}
-              key={index}
-            >
-              {category}
-            </span>
-          ))}
-        </div>
-
-        <button
-          disabled={loading}
-          className="w-full flex justify-center items-center gap-2 bg-linear-to-r from-[#226BFF] to-[#65ADFF] text-white px-4 py-2 mt-6 text-sm rounded-lg cursor-pointer"
+    <div className="h-full overflow-y-auto p-6 sm:p-10 text-white">
+      <div className="max-w-6xl mx-auto flex flex-wrap gap-6">
+        {/* left col */}
+        <form
+          onSubmit={onSubmitHandler}
+          className="flex-1 min-w-[280px] bg-gray-900/70 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 shadow-[0_20px_80px_-40px_rgba(0,0,0,0.8)]"
         >
-          {loading ? (
-            <span className="w-4 h-4 my-1 rounded-full border-2 border-t-transparent animate-spin"></span>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-widest text-blue-300/80">AI Title Generator</p>
+              <h1 className="text-2xl font-semibold">Craft powerful headlines</h1>
+            </div>
+          </div>
+
+          <p className="mt-8 text-sm font-medium text-gray-300">Keyword</p>
+          <input
+            type="text"
+            className="w-full px-4 py-3 mt-3 rounded-2xl bg-black/40 border border-white/10 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={input}
+            placeholder="The future of artificial intelligence is..."
+            onChange={(e) => setInput(e.target.value)}
+            required
+          />
+
+          <p className="mt-6 text-sm font-medium text-gray-300">Category</p>
+
+          <div className="mt-4 flex gap-3 flex-wrap">
+            {categories.map((category, index) => (
+              <span
+                onClick={() => setSelectedCategory(category)}
+                className={`text-xs px-4 py-1.5 rounded-full cursor-pointer border transition-all ${
+                  selectedCategory === category
+                    ? "bg-blue-500/20 text-blue-200 border-blue-400/40"
+                    : "text-gray-400 border-white/10 hover:border-white/30"
+                }`}
+                key={index}
+              >
+                {category}
+              </span>
+            ))}
+          </div>
+
+          <button
+            disabled={loading}
+            className="mt-8 w-full flex justify-center items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 py-3 text-sm font-medium tracking-wide shadow-lg shadow-blue-500/20 transition-transform hover:scale-[1.01] disabled:opacity-70"
+          >
+            {loading ? (
+              <span className="w-4 h-4 my-1 rounded-full border-2 border-t-transparent border-white/60 animate-spin"></span>
+            ) : (
+              <Hash className="w-5" />
+            )}
+            Generate title
+          </button>
+        </form>
+
+        {/* Right col*/}
+        <div className="flex-1 min-w-[280px] bg-gray-900/70 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 flex flex-col shadow-[0_20px_80px_-40px_rgba(0,0,0,0.8)]">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+              <Hash className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-widest text-purple-300/80">Outputs</p>
+              <h1 className="text-2xl font-semibold">Generated titles</h1>
+            </div>
+          </div>
+
+          {!content ? (
+            <div className="flex-1 flex justify-center items-center">
+              <div className="text-sm flex flex-col items-center gap-5 text-gray-500">
+                <Hash className="w-8 h-8" />
+                <p>Enter a topic and click "Generate title" to get started</p>
+              </div>
+            </div>
           ) : (
-            <Hash className="w-5" />
+            <div className="mt-4 h-full max-h-[520px] overflow-y-auto pr-2 text-sm text-gray-200">
+              <div className="reset-tw">
+                <Markdown>{content}</Markdown>
+              </div>
+            </div>
           )}
-          Generate title
-        </button>
-      </form>
-
-      {/* Right col*/}
-      <div className="w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-200 min-h-96">
-        <div className="flex items-center gap-3">
-          <Hash className="w-5 h-5 text-[#447AFF]" />
-          <h1 className="text-xl font-semibold">Generated titles</h1>
         </div>
-
-        {!content ? (
-          <div className="flex-1 flex justify-center items-center">
-            <div className="text-sm flex flex-col items-center gap-5 text-gray-400">
-              <Hash className="w-9 h-9" />
-              <p>Enter a topic and click "Generate title" to get started</p>
-            </div>
-          </div>
-        ) : (
-          <div className="mt-3 h-full overflow-y-scroll text-sm text-slate-600">
-            <div className=".reset-tw">
-              <Markdown>{content}</Markdown>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
