@@ -10,18 +10,22 @@ const app = express()
 
 await connectCloudinary()
 
+// ✅ CORS MUST BE FIRST
+app.use(cors({
+  origin: ["https://quick-ai-powered.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+}));
+
 app.use(express.json())
-app.use(cors())
 app.use(clerkMiddleware())
 
-// Protect API routes
-app.use(requireAuth())
+// Protect ONLY API routes
+app.use('/api/ai', requireAuth(), aiRouter)
+app.use('/api/user', requireAuth(), userRouter)
 
-// API routes
-app.use('/api/ai', aiRouter)
-app.use('/api/user', userRouter)
-
-// Root route LAST
+// Root route
 app.get('/', (req, res) => {
   res.send('server is live')
 })
